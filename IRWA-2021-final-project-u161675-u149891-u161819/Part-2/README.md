@@ -16,7 +16,7 @@ SUPPORT:
 You can contact any team member by e-mail or search for gudance in stackoverflow.
 
 Alex Urbano: alex.urbano01@estudiant.upf.edu
-David Legarre:david.legarre01@estudiant.upf.edu
+David Legarre: david.legarre01@estudiant.upf.edu
 Mercè Boldú: merce.boldu01@estudiant.upf.edu
 
 PROJECT STATUS:
