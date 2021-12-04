@@ -32,9 +32,7 @@ def search_index(search_query, index, idf, tf, id_index):
 
     documents = []
     results = search_tf_idf(search_query, index, idf, tf, id_index)
-    print(f"{results=}")
     for tweet_info in results:
-        print(f"{tweet_info=}")
         new_doc = DocumentInfo(tweet_info[0],
                                tweet_info[1],
                                tweet_info[2],
@@ -58,9 +56,7 @@ class SearchEngine:
         print("Search query:", search_query)
 
         results = []
-        ##### your code here #####
         results = search_index(search_query, self.index, self.idf, self.tf, self.id_index)  # replace with call to search algorithm
-        ##### your code here #####
 
         return results
 
