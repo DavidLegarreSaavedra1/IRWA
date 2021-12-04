@@ -28,23 +28,22 @@ def read_index():
     return (index, df, id_index, idf, tf)
 
 
-def build_demo_data():
-    """
-    Helper method, just to demo the app
-    :return: a list of demo docs sorted by ranking
-    """
-    samples = ["Messier 81", "StarBurst", "Black Eye", "Cosmos Redshift", "Sombrero", "Hoags Object",
-            "Andromeda", "Pinwheel", "Cartwheel",
-            "Mayall's Object", "Milky Way", "IC 1101", "Messier 87", "Ring Nebular", "Centarus A", "Whirlpool",
-            "Canis Major Overdensity", "Virgo Stellar Stream"]
+def search_index(search_query, index, idf, tf, id_index):
 
-    res = []
-    for index, item in enumerate(samples):
-        res.append(DocumentInfo(item, (item + " ") * 5, get_random_date(),
-                                "doc_details?id={}&param1=1&param2=2".format(index), random.random()))
-    # simulate sort by ranking
-    res.sort(key=lambda doc: doc.ranking, reverse=True)
-    return res
+    documents = []
+    results = search_tf_idf(search_query, index, idf, tf, id_index)
+    print(f"{results=}")
+    for tweet_info in results:
+        print(f"{tweet_info=}")
+        new_doc = DocumentInfo(tweet_info[0],
+                               tweet_info[1],
+                               tweet_info[2],
+                               tweet_info[3],
+                               tweet_info[4],
+                               tweet_info[5],
+                               tweet_info[6])
+        documents.append(new_doc)
+    return documents
 
 
 class SearchEngine:
@@ -60,7 +59,7 @@ class SearchEngine:
 
         results = []
         ##### your code here #####
-        results = search_tf_idf(search_query, self.index, self.idf, self.tf, self.id_index)  # replace with call to search algorithm
+        results = search_index(search_query, self.index, self.idf, self.tf, self.id_index)  # replace with call to search algorithm
         ##### your code here #####
 
         return results
