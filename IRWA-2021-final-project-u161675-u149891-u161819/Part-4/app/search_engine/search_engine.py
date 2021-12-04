@@ -52,8 +52,8 @@ class SearchEngine:
     """educational search engine"""
     i = 12345
     start_time = time.time()
-    #index, df, id_index, idf, tf = read_index()
-    index, df, id_index, idf, tf = create_index()
+    index, df, id_index, idf, tf = read_index()
+    #index, df, id_index, idf, tf = create_index()
     print("Total time to read the index: {} seconds".format(np.round(time.time() - start_time, 2)))
     
     def search(self, search_query):
