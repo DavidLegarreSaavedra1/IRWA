@@ -41,7 +41,7 @@ def get_tweet_info(tweet):
     info = [Tweet, Username, Date, Hashtags, Likes, Retweets, Url]
     return info
 
-def create_index(tweets):
+def create_index():
     """
     Generates the index from our database to perform queries from
     
@@ -52,6 +52,19 @@ def create_index(tweets):
     index - the inverted index (implemented through a Python dictionary) containing terms as keys and the corresponding
     list of documents where these keys appears in as values.
     """
+    data_path = os.path.join(*['app', 'search_engine', 'indexes']) 
+
+    docs_path = os.path.join(data_path,'dataset_tweets_WHO.txt')
+    
+    with open(docs_path) as fp:
+        lines = fp.readline()
+    tweets = json.loads(lines)
+
+
+    proc_tweets = {}
+    for tweet_id, tweet in zip(tweets.keys(),tweets.values()):
+        proc_tweets[int(tweet_id)] = process_tweet(tweet['full_text'])
+
     index = {}
     id_index = {}
     tf = {}
@@ -89,14 +102,3 @@ def create_index(tweets):
         
     return index, tf,df,idf,id_index
 
-docs_path = 'dataset_tweets_WHO.txt'
-with open(docs_path) as fp:
-    lines = fp.readline()
-tweets = json.loads(lines)
-
-
-proc_tweets = {}
-for tweet_id, tweet in zip(tweets.keys(),tweets.values()):
-    proc_tweets[int(tweet_id)] = process_tweet(tweet['full_text'])
-
-index, tf,df,idf,id_index = create_index(tweets)

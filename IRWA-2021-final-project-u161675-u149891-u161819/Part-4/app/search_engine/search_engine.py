@@ -5,7 +5,7 @@ from app.core.utils import get_random_date
 import os
 import pickle
 
-def build_index():
+def read_index():
     data_path = os.path.join(*['app', 'search_engine', 'indexes']) 
 
     with open(os.path.join(data_path,'index.pkl'),'rb') as index_file:
@@ -49,7 +49,7 @@ class SearchEngine:
     """educational search engine"""
     i = 12345
 
-    index, df, id_index, idf, tf = build_index()
+    index, df, id_index, idf, tf = read_index()
     
     def search(self, search_query):
         print("Search query:", search_query)
