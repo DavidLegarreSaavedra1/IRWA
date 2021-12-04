@@ -1,23 +1,36 @@
 {% extends "base.html" %}
 {% block page_title %}{{ page_title }}{% endblock %}
 {% block content %}
+    Open stats: <div class="stats"><a href="/stats"> stats </a></div>
     Found <strong>{{ found_counter }}</strong> results...
     <hr>
     {% for item in results_list %}
         <div class="pb-3">
             <div class="doc-title">
-                <a href="{{ item.url }}">{{ item.tweet }}...
-                </a>
+                Tweet: <a href="/doc_details">{{ item.title}}</a>
             </div>
+
+            <div class="tweet">
+                {{ item.tweet }}
+            </div>
+            
+            <div class="date">
+                Created at: {{ item.date }}
+            </div>
+
+            <div class="url">
+                <cite> <a href="{{ item.url }}">{{ item.url }}</a></cite>
+            </div>
+
             <!--
             <div class="cited">
                 <cite> <a href="{{ item.url }}">{{ item.url }}</a></cite>
             </div>
             -->
+            
             <div class="doc-desc">
                 likes:{{ item.likes }} — retweets:{{ item.retweets }}
             </div>
-
         </div>
 
     {% endfor %}
