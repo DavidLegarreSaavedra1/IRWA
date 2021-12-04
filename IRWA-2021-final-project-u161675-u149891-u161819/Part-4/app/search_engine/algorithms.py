@@ -1,4 +1,25 @@
+import nltk
+nltk.download('stopwords')
+nltk.download('punkt')
+
+from collections import defaultdict
+from array import array
+from nltk.stem import PorterStemmer
+from nltk.corpus import stopwords
+import re
+import math
 import numpy as np
+import collections
+from numpy import linalg as la
+import time
+import json
+import matplotlib.cm as cm
+import matplotlib.pyplot as plt
+import smart_open
+from gensim.models import Word2Vec
+from sklearn.manifold import TSNE
+import pandas as pd
+import os
 
 def process_tweet(line):
     """
@@ -55,7 +76,7 @@ def create_index():
     data_path = os.path.join(*['app', 'search_engine', 'indexes']) 
 
     docs_path = os.path.join(data_path,'dataset_tweets_WHO.txt')
-    
+
     with open(docs_path) as fp:
         lines = fp.readline()
     tweets = json.loads(lines)

@@ -1,9 +1,12 @@
 import random
 
 from app.core.utils import get_random_date
+from app.search_engine.algorithms import create_index
+from .algorithms import *
 
 import os
 import pickle
+import time
 
 def read_index():
     data_path = os.path.join(*['app', 'search_engine', 'indexes']) 
@@ -48,13 +51,14 @@ def build_demo_data():
 class SearchEngine:
     """educational search engine"""
     i = 12345
-
-    index, df, id_index, idf, tf = read_index()
+    start_time = time.time()
+    #index, df, id_index, idf, tf = read_index()
+    index, df, id_index, idf, tf = create_index()
+    print("Total time to read the index: {} seconds".format(np.round(time.time() - start_time, 2)))
     
     def search(self, search_query):
         print("Search query:", search_query)
-        print(type(index), type(tf), type(df), type(idf), type(id_index))
-        print(len(index), len(tf), len(df), len(idf), len(id_index))
+
         results = []
         ##### your code here #####
         results = build_demo_data()  # replace with call to search algorithm
