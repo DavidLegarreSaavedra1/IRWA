@@ -1,26 +1,56 @@
-INTRODUCTION REQUIREMENTS:
-You need to install the libraries: smart_open and gensim 
-in order to use our python notebok.
-(They can be installed using the command line "pip install")
-Also you will need the libraries:
-pandas, math, re, numpy, collections, time, json, nltk
+# Search Engine with Web Analytics - skeleton project
+# IRWA Final Project
 
-USAGE:
-In order to run the script you need to download the dataset: dataset_tweets_WHO.txt 
-This file should be placed in the same computer folder than the python script.
-There are a few code cells where it's asked to the insert queries, you could try any word you like 
-and in the script there is an example you could use. 
-(Our recomendation is to use words like "covid" or "risk")
+This projects contains the startup Flask files for developing a web application.
 
-In order to make testing easier for us we've automated the querying functions. In case you want to make your own queries, you should comment some lines and uncomment others, these specific lines are specified in the searching functions with comments
-SUPPORT:
-You can contact any team member by e-mail or search for gudance in stackoverflow.
+## Starting the Web App
 
-Alex Urbano: alex.urbano01@estudiant.upf.edu
-David Legarre:david.legarre01@estudiant.upf.edu
-Mercè Boldú: merce.boldu01@estudiant.upf.edu
+```bash
+python -V
+# Make sure we use Python 3
 
-PROJECT STATUS:
-After this deliverable, we've finished the part 3 of the project 
-(preprocessing, indexing, evaluation and ranking), 
-and it's remaining 1 last part
+python web_app.py
+```
+The above will start a web server with the application:
+```
+ * Serving Flask app 'web-app' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: off
+ * Running on http://127.0.0.1:8088/ (Press CTRL+C to quit)
+```
+
+## Virtualenv for the project (first time use)
+### Install virtualenv
+Having different version of libraries for different projects.  
+Solves the elevated privilege issue as virtualenv allows you to install with user permission.
+
+In the project root directory execute:
+```bash
+pip3 install virtualenv
+virtualenv --version
+```
+virtualenv 20.10.0
+
+### Prepare virtualenv for the project
+In the root of the project folder run:
+```bash
+virtualenv .
+```
+
+If you list the contents of the project root directory, you will see that it has created several sub-directories, including a bin folder (Scripts on Windows) that contains copies of both Python and pip. Also, a lib folder will be created by this action.
+
+The next step is to activate your new virtualenv for the project:
+```bash
+source bin/activate
+```
+This will load the python virtualenv for the project.
+
+### Installing Flask and other packages in your virtualenv
+```bash
+pip install Flask pandas nltk faker
+```
+
+Enjoy!
+
