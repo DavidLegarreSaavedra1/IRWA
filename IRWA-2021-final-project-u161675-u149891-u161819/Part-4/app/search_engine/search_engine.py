@@ -1,8 +1,7 @@
 import random
 
 from app.core.utils import get_random_date
-from app.search_engine.algorithms import create_index
-from .algorithms import *
+from app.search_engine.algorithms import *
 
 import os
 import pickle
@@ -61,16 +60,19 @@ class SearchEngine:
 
         results = []
         ##### your code here #####
-        results = build_demo_data()  # replace with call to search algorithm
+        results = search_tf_idf(search_query, self.index, self.idf, self.tf, self.id_index)  # replace with call to search algorithm
         ##### your code here #####
 
         return results
 
 
 class DocumentInfo:
-    def __init__(self, title, description, doc_date, url, ranking):
-        self.title = title
-        self.description = description
-        self.doc_date = doc_date
+    #info = [Tweet, Username, Date, Hashtags, Likes, Retweets, Url]
+    def __init__(self, tweet, username, date, hashtags, likes, retweets, url):
+        self.tweet = tweet
+        self.username = username
+        self.date = date
+        self.hashtags = hashtags
+        self.likes = likes
+        self.retweets = retweets
         self.url = url
-        self.ranking = ranking
