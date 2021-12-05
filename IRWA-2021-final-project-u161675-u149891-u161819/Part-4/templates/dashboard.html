@@ -18,6 +18,29 @@
     <div><a href="#" onclick="history.go(-1)">Go back</a></div>
     <div><a href="#" onclick="history.go(-2)">Go back to results</a></div>
     <div><a href="#" onclick="history.go(-3)">Make another query</a></div>
+    <hr> Stats this session:
+    <hr>
+    <div class="Clicks">
+        Number of documents clicked this session: {{ num_clicks }}
+    </div>
+    <hr>
+    <div class="queries">
+        <div class="avg_q_len">
+            Average query length this session: {{ queries_len}}
+        </div>
+        <br>
+        <div class="queries">
+            Queries so far:
+            <div class="queries">
+                <ol>
+                    {% for query in queries %}
+                    <li>{{ query.text }}</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+    </div>
 
 </html>
 {% endblock %}

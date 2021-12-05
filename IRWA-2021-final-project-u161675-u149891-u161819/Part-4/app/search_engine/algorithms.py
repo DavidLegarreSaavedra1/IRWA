@@ -18,8 +18,6 @@ from array import array
 from collections import defaultdict
 
 import nltk
-nltk.download('stopwords')
-nltk.download('punkt')
 
 
 # Process tweets

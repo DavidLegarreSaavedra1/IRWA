@@ -66,3 +66,7 @@ input[type=submit]:hover {
     font-size: 0.95em;
     adding-left: 5px;
 }
+
+ol.d {
+    list-style-type: lower-alpha;
+}

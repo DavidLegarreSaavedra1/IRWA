@@ -7,8 +7,6 @@ from app.analytics.analytics_data import AnalyticsData, Click
 from app.core import utils
 from app.search_engine.search_engine import SearchEngine
 
-from requirements import *
-
 app = Flask(__name__)
 
 searchEngine = SearchEngine()
@@ -17,6 +15,7 @@ corpus = utils.load_documents_corpus()
 
 queries = []
 
+docs_clicked = {}
 @app.route('/')
 def search_form():
     return render_template('index.html', page_title="Welcome")
