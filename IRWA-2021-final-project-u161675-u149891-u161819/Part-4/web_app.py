@@ -1,4 +1,5 @@
 import nltk
+from datetime import date
 
 from flask import Flask, render_template
 from flask import request
@@ -38,7 +39,7 @@ def search_form_post():
     results = searchEngine.search(search_query)
     if not results:
         return render_template('not_found.html')
-        
+
     found_count = len(results)
 
     return render_template('results.html', results_list=results, page_title="Results", found_counter=found_count)
