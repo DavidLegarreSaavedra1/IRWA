@@ -208,7 +208,6 @@ def search_tf_idf(query, index, idf, tf, id_index):
 
     if ranked_docs:
         for d_id in ranked_docs[:top]:
-            # print(f"{id_index[d_id]}\n")
             tweets.append(id_index[d_id])
     else:
         return

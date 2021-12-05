@@ -16,6 +16,8 @@ corpus = utils.load_documents_corpus()
 queries = []
 
 docs_clicked = {}
+
+
 @app.route('/')
 def search_form():
     return render_template('index.html', page_title="Welcome")
@@ -30,10 +32,16 @@ def search_form_post():
     new_query = utils.Query(search_query, num_terms_q)
 
     queries.append(new_query)
-    
-    results = searchEngine.search(search_query)
-    found_count = len(results)
 
+    results = searchEngine.search(search_query)
+    for result in results:
+        id = result.id
+        if id not in docs_clicked:
+            docs_clicked[id] = [new_query]
+        else:
+            docs_clicked[id].append(new_query)
+
+    found_count = len(results)
 
     return render_template('results.html', results_list=results, page_title="Results", found_counter=found_count)
 
@@ -43,10 +51,15 @@ def doc_details():
     # getting request parameters:
     # user = request.args.get('user')
     clicked_doc_id = int(request.args["id"])
-    analytics_data.fact_clicks.append(Click(clicked_doc_id, "some desc"))
+    # Recover query by click
+    query_txt = str(request.args["query"])
+    query = utils.Query(query_txt, len(query_txt.split(' ')))
 
-    print("click in id={} - fact_clicks len: {}".format(clicked_doc_id,
-          len(analytics_data.fact_clicks)))
+    analytics_data.fact_clicks.append(
+        Click(clicked_doc_id, "some desc", query))
+
+    print("click in id={} - fact_clicks len: {} - in query: {}".format(clicked_doc_id,
+          len(analytics_data.fact_clicks), query.text))
 
     return render_template('doc_details.html', tweet=corpus[clicked_doc_id])
 

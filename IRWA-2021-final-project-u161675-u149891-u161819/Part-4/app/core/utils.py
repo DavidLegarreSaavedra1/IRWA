@@ -83,4 +83,3 @@ def average_q_length(query_list):
         avg_len.append(query.num_terms)
 
     return np.mean(avg_len)
-    

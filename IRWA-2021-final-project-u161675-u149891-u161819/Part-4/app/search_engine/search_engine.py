@@ -1,4 +1,5 @@
 import random
+from re import search
 
 from app.core.utils import get_random_date
 from app.search_engine.algorithms import *
@@ -30,12 +31,13 @@ def read_index():
 
 
 def search_index(search_query, index, idf, tf, id_index):
-
     documents = []
     results = search_tf_idf(search_query, index, idf, tf, id_index)
     for tweet_info in results:
         title = f"{tweet_info[0][:25]}...\n"
-        tweet_details = "doc_details?id={}".format(tweet_info[7])
+        tweet_details = "doc_details?id={}&query={}".format(
+            tweet_info[7], search_query)    
+        print(f"{type(tweet_details)=}")    
         new_doc = DocumentInfo(title,
                                tweet_info[0],
                                tweet_info[1],
@@ -44,8 +46,11 @@ def search_index(search_query, index, idf, tf, id_index):
                                tweet_info[4],
                                tweet_info[5],
                                tweet_info[6],
+                               tweet_info[7],
                                tweet_details)
         documents.append(new_doc)
+        print(f"{new_doc.details=}")
+        print(type(new_doc.details))
     return documents
 
 
@@ -71,7 +76,7 @@ class SearchEngine:
 
 class DocumentInfo:
     #info = [Tweet, Username, Date, Hashtags, Likes, Retweets, Url]
-    def __init__(self, title, tweet, username, date, hashtags, likes, retweets, url, details):
+    def __init__(self, title, tweet, username, date, hashtags, likes, retweets, url, id, details):
         self.title = title
         self.tweet = tweet
         self.username = username
@@ -81,3 +86,4 @@ class DocumentInfo:
         self.retweets = retweets
         self.url = url
         self.details = details
+        self.id = id
