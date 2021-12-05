@@ -33,7 +33,7 @@ def search_form_post():
 @app.route('/doc_details', methods=['GET'])
 def doc_details():
     # getting request parameters:
-    # user = request.args.get('user')
+    user = request.args.get('user')
     clicked_doc_id = int(request.args["id"])
     analytics_data.fact_clicks.append(Click(clicked_doc_id, "some desc"))
 

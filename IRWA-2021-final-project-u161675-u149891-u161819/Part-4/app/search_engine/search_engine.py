@@ -34,6 +34,7 @@ def search_index(search_query, index, idf, tf, id_index):
     results = search_tf_idf(search_query, index, idf, tf, id_index)
     for tweet_info in results:
         title = f"{tweet_info[0][:25]}...\n"
+        #tweet_details = "doc_details?id={}&param1=1&param2=2".format()
         new_doc = DocumentInfo(title,
                                tweet_info[0],
                                tweet_info[1],
@@ -41,7 +42,8 @@ def search_index(search_query, index, idf, tf, id_index):
                                tweet_info[3],
                                tweet_info[4],
                                tweet_info[5],
-                               tweet_info[6])
+                               tweet_info[6],
+                               tweet_info[7])
         documents.append(new_doc)
     return documents
 
@@ -64,7 +66,7 @@ class SearchEngine:
 
 class DocumentInfo:
     #info = [Tweet, Username, Date, Hashtags, Likes, Retweets, Url]
-    def __init__(self, title, tweet, username, date, hashtags, likes, retweets, url):
+    def __init__(self, title, tweet, username, date, hashtags, likes, retweets, url, details):
         self.title = title
         self.tweet = tweet
         self.username = username
@@ -73,3 +75,4 @@ class DocumentInfo:
         self.likes = likes
         self.retweets = retweets
         self.url = url
+        self.details = details

@@ -52,7 +52,7 @@ def process_tweet(line):
     return line
 
 
-def get_tweet_info(tweet):
+def get_tweet_info(tweet, tweet_id):
     Tweet = tweet['full_text']
     Username = tweet['user']['name']
     Date = tweet['created_at']
@@ -63,7 +63,8 @@ def get_tweet_info(tweet):
     Likes = tweet['favorite_count']
     Retweets = tweet['retweet_count']
     Url = f"https://twitter.com/{tweet['user']['screen_name']}/status/{tweet['id_str']}"
-    info = [Tweet, Username, Date, Hashtags, Likes, Retweets, Url]
+    details = "doc_details?id={}&param1=1&param2=2".format(tweet_id)
+    info = [Tweet, Username, Date, Hashtags, Likes, Retweets, Url, details]
     return info
 
 
@@ -101,8 +102,8 @@ def create_index():
     for i in range(numDocuments):
         tweet = tweets[str(i)]
         terms = process_tweet(tweet['full_text']) #get tweet text
-        info = get_tweet_info(tweet) # get "document" info
         id_tweet = tweet['id']
+        info = get_tweet_info(tweet, id_tweet) # get "document" info
         id_index[id_tweet]=info
         
         for term in terms: 
