@@ -10,9 +10,16 @@
     text-align: center;
 }
 
+
 /*.btn-primary {*/
+
+
 /*    background-color: #c8102e;*/
+
+
 /*    border: #c8102e;*/
+
+
 /*}*/
 
 .btn-primary,
@@ -24,7 +31,6 @@
     background-color: #c8102e;
     border-color: #c8102e;
 }
-
 
 .header {
     font-size: 1.7em;

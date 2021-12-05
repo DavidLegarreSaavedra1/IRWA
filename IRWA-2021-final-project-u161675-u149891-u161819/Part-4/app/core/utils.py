@@ -68,3 +68,15 @@ def load_documents_corpus():
                            tweet_info[6])
         docs[tweet_id] = new_doc
     return docs
+
+class Query:
+    def __init__(self, text, num_terms):
+        self.text = text
+        self.num_terms = num_terms
+
+def average_q_length(query_list):
+    avg_len = []
+    for query in query_list:
+        avg_len.append(query.num_terms)
+    
+    return np.mean(avg_len)
