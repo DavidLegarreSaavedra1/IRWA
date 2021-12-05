@@ -37,7 +37,6 @@ def search_index(search_query, index, idf, tf, id_index):
         title = f"{tweet_info[0][:25]}...\n"
         tweet_details = "doc_details?id={}&query={}".format(
             tweet_info[7], search_query)    
-        print(f"{type(tweet_details)=}")    
         new_doc = DocumentInfo(title,
                                tweet_info[0],
                                tweet_info[1],
@@ -49,8 +48,6 @@ def search_index(search_query, index, idf, tf, id_index):
                                tweet_info[7],
                                tweet_details)
         documents.append(new_doc)
-        print(f"{new_doc.details=}")
-        print(type(new_doc.details))
     return documents
 
 
