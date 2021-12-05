@@ -165,16 +165,13 @@ def rank_documents(terms, docs, index, idf, tf, title_index):
                 doc_vectors[doc][termIndex] = tf[term][doc] * idf[term]
 
     doc_scores = [[np.dot(curDocVec, query_vector), doc]
-                          for doc, curDocVec in doc_vectors.items()]
+                  for doc, curDocVec in doc_vectors.items()]
     doc_scores.sort(reverse=True)
     result_docs = [x[1] for x in doc_scores]
     if len(result_docs) == 0:
         print("No results found, try again")
-        query = input()
-        if not query:
-            return None
-        result_docs, doc_scores = search_tf_idf(query, index)
-    return result_docs, doc_scores
+        return False
+    return result_docs
 
 
 # Search engine
@@ -200,9 +197,10 @@ def search_tf_idf(query, index, idf, tf, id_index):
             break
 
     docs = list(docs)
-    ranked_docs, doc_scores = rank_documents(
+    ranked_docs = rank_documents(
         query, docs, index, idf, tf, id_index)
-
+    if not ranked_docs:
+        return False
     top = 10
     tweets = []
 
@@ -222,26 +220,25 @@ def create_corpus():
     Returns:
     The corpus of each tweet in a list
     """
-    data_path = os.path.join(*['app', 'search_engine', 'indexes']) 
+    data_path = os.path.join(*['app', 'search_engine', 'indexes'])
 
-    docs_path = os.path.join(data_path,'dataset_tweets_WHO.txt')
+    docs_path = os.path.join(data_path, 'dataset_tweets_WHO.txt')
 
     with open(docs_path) as fp:
         lines = fp.readline()
     tweets = json.loads(lines)
 
-
     proc_tweets = {}
-    for tweet_id, tweet in zip(tweets.keys(),tweets.values()):
+    for tweet_id, tweet in zip(tweets.keys(), tweets.values()):
         proc_tweets[int(tweet_id)] = process_tweet(tweet['full_text'])
 
     corpus = []
     numDocuments = len(tweets)
     for i in range(numDocuments):
         tweet = tweets[str(i)]
-        terms = process_tweet(tweet['full_text']) #get tweet text
+        terms = process_tweet(tweet['full_text'])  # get tweet text
         id_tweet = tweet['id']
-        info = get_tweet_info(tweet, id_tweet) # get "document" info
+        info = get_tweet_info(tweet, id_tweet)  # get "document" info
         corpus.append(info)
-    
+
     return corpus

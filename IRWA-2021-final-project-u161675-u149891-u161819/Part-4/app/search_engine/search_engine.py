@@ -1,7 +1,7 @@
 import random
 from re import search
 
-from app.core.utils import get_random_date
+from app.core.utils import get_random_date, Document
 from app.search_engine.algorithms import *
 
 import os
@@ -9,6 +9,7 @@ import pickle
 import time
 
 
+# This function is only used when using .pkl files to read index instead of building it from scratch
 def read_index():
     data_path = os.path.join(*['app', 'search_engine', 'indexes'])
 
@@ -30,23 +31,37 @@ def read_index():
     return (index, df, id_index, idf, tf)
 
 
+#info = [Tweet, Username, Date, Hashtags, Likes, Retweets, Url, tweet_id]
 def search_index(search_query, index, idf, tf, id_index):
     documents = []
     results = search_tf_idf(search_query, index, idf, tf, id_index)
+    if not results:
+        return False
+
     for tweet_info in results:
-        title = f"{tweet_info[0][:25]}...\n"
+        tweet_id = tweet_info[7]
+        title = f"{' '.join(tweet_info[0].split(' ')[:5])}...\n"
+        tweet_txt = tweet_info[0]
+        tweet_usr = tweet_info[1]
+        tweet_date = tweet_info[2]
+        tweet_hashtags = tweet_info[3]
+        tweet_likes = tweet_info[4]
+        tweet_retweets = tweet_info[5]
+        tweet_url = tweet_info[6]
         tweet_details = "doc_details?id={}&query={}".format(
-            tweet_info[7], search_query)    
-        new_doc = DocumentInfo(title,
-                               tweet_info[0],
-                               tweet_info[1],
-                               tweet_info[2],
-                               tweet_info[3],
-                               tweet_info[4],
-                               tweet_info[5],
-                               tweet_info[6],
-                               tweet_info[7],
-                               tweet_details)
+            tweet_info[7], search_query)
+
+        new_doc = Document(tweet_id,
+                           title,
+                           tweet_txt,
+                           tweet_usr,
+                           tweet_date,
+                           tweet_hashtags,
+                           tweet_likes,
+                           tweet_retweets,
+                           tweet_url,                            
+                           tweet_details)
+
         documents.append(new_doc)
     return documents
 
@@ -55,10 +70,16 @@ class SearchEngine:
     """educational search engine"""
     start_time = time.time()
     # Read index to go faster at runtime
-    index, df, id_index, idf, tf = read_index()
+    # index, df, id_index, idf, tf = read_index()
     # index, df, id_index, idf, tf = create_index() # Build the index from our database
-    print("Total time to read the index: {} seconds".format(
-        np.round(time.time() - start_time, 2)))
+
+    def __init__(self, index, df, id_index, idf, tf):
+        self.index = index
+        self.df = df
+        self.id_index = id_index
+        self.idf = idf
+        self.tf = tf
+        pass
 
     def search(self, search_query):
         print("Search query:", search_query)
@@ -68,19 +89,7 @@ class SearchEngine:
         results = search_index(search_query, self.index,
                                self.idf, self.tf, self.id_index)
 
+        if not results:
+            return False
+            
         return results
-
-
-class DocumentInfo:
-    #info = [Tweet, Username, Date, Hashtags, Likes, Retweets, Url]
-    def __init__(self, title, tweet, username, date, hashtags, likes, retweets, url, id, details):
-        self.title = title
-        self.tweet = tweet
-        self.username = username
-        self.date = date
-        self.hashtags = hashtags
-        self.likes = likes
-        self.retweets = retweets
-        self.url = url
-        self.details = details
-        self.id = id

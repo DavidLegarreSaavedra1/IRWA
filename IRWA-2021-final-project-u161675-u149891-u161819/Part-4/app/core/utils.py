@@ -28,10 +28,8 @@ def get_random_date_in(start, end):
 
 
 class Document:
-    def __init__(self, id, title, tweet,
-                 username, date, hashtags,
-                 likes, retweets, url):
-
+    #info = [Tweet, Username, Date, Hashtags, Likes, Retweets, Url]
+    def __init__(self, id, title, tweet, username, date, hashtags, likes, retweets, url, details=None, query=None):
         self.id = id
         self.title = title
         self.tweet = tweet
@@ -41,6 +39,9 @@ class Document:
         self.likes = likes
         self.retweets = retweets
         self.url = url
+        self.details = details
+        self.queries = [query]
+        
 
 
 def load_documents_corpus():
@@ -48,11 +49,7 @@ def load_documents_corpus():
     Load documents corpus from dataset_tweets_WHO.txt file
     :return:
     """
-
-    ##### demo replace ith your code here #####
-    # docs = []
-    # for i in range(200):
-    #     docs.append(Document(fake.uuid4(), fake.text(), fake.text(), fake.date_this_year(), fake.email(), fake.ipv4()))
+    
     tweets = create_corpus()
     docs = {}
     for tweet_info in tweets:

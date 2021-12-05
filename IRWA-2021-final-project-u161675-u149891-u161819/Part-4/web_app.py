@@ -1,22 +1,24 @@
 import nltk
+
 from flask import Flask, render_template
 from flask import request
 from flask import session
 
-from app.analytics.analytics_data import AnalyticsData, Click
+from app.analytics.analytics_data import AnalyticsData, Click, Agent_data
 from app.core import utils
-from app.search_engine.search_engine import SearchEngine
+from app.search_engine.search_engine import SearchEngine, read_index
 
 app = Flask(__name__)
 
-searchEngine = SearchEngine()
+# Read index to go faster at runtime
+index, df, id_index, idf, tf = read_index()
+# index, df, id_index, idf, tf = create_index() # Build the index from our database
+
+searchEngine = SearchEngine(index, df, id_index, idf, tf)
 analytics_data = AnalyticsData()
 corpus = utils.load_documents_corpus()
 
 queries = []
-
-docs_clicked = {}
-
 
 @app.route('/')
 def search_form():
@@ -34,13 +36,9 @@ def search_form_post():
     queries.append(new_query)
 
     results = searchEngine.search(search_query)
-    for result in results:
-        id = result.id
-        if id not in docs_clicked:
-            docs_clicked[id] = [new_query]
-        else:
-            docs_clicked[id].append(new_query)
-
+    if not results:
+        return render_template('not_found.html')
+        
     found_count = len(results)
 
     return render_template('results.html', results_list=results, page_title="Results", found_counter=found_count)
@@ -56,10 +54,14 @@ def doc_details():
     query = utils.Query(query_txt, len(query_txt.split(' ')))
 
     analytics_data.fact_clicks.append(
-        Click(clicked_doc_id, "some desc", query))
+        Click(clicked_doc_id, "some desc"))
 
-    print("click in id={} - fact_clicks len: {} - in query: {}".format(clicked_doc_id,
-          len(analytics_data.fact_clicks), query.text))
+    analytics_data.add_click_to_doc(clicked_doc_id)
+
+    analytics_data.add_query_to_doc(clicked_doc_id, query)
+
+    print("click in id={} - fact_clicks len: {}".format(clicked_doc_id,
+          len(analytics_data.fact_clicks)))
 
     return render_template('doc_details.html', tweet=corpus[clicked_doc_id])
 
@@ -81,10 +83,22 @@ def stats():
     # Query stats
     queries_len = utils.average_q_length(queries)
 
+    # Documents stats
+    top_10_docs = analytics_data.get_top10_clicked_docs(corpus)
+
+    for doc in top_10_docs:
+        for query in analytics_data.fact_doc_queries[doc.id]:
+            doc.queries.append(query.text)
+        doc.queries = [q for q in doc.queries if q]
+
+    # Agent data
+    agent_data = Agent_data(request)
+
     return render_template('dashboard.html',
                            clicks_data=docs, num_clicks=num_clicks,
                            num_sessions=num_sessions, queries=queries,
-                           queries_len=queries_len)
+                           queries_len=queries_len, top10_clicked_docs=top_10_docs,
+                           agent=agent_data)
 
 
 @app.route('/sentiment')
