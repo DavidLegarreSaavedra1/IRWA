@@ -219,7 +219,7 @@ def search_tf_idf(query, index, idf, tf, id_index):
 
 # Create document corpus
 def create_corpus():
-     """
+    """
     Generates the documents corpus
 
     Returns:
