@@ -70,9 +70,7 @@ def doc_details():
 
 @app.route('/stats', methods=['GET'])
 def stats():
-    """
-    Show simple statistics example. ### Replace with dashboard ###
-    :return:
+    """Show statistics from this sessions when called
     """
     docs = []
     for clk in analytics_data.fact_clicks:

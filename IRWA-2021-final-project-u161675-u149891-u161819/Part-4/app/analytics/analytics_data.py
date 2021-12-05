@@ -1,5 +1,5 @@
 from app.search_engine.algorithms import get_tweet_info
-#from app.core.utils import Document
+
 
 class AnalyticsData:
     fact_clicks = []
@@ -23,6 +23,7 @@ class AnalyticsData:
 
         return top10
     
+    
     def add_query_to_doc(self, doc_id, query):
         if doc_id not in self.fact_doc_queries:
             self.fact_doc_queries[doc_id] = [query]
@@ -35,6 +36,7 @@ class Agent_data:
         self.platform = request.user_agent.platform
         self.browser = request.user_agent.browser
         self.language = request.user_agent.language
+
 
 class Click:
     def __init__(self, doc_id, description):

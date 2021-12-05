@@ -31,7 +31,6 @@ def read_index():
     return (index, df, id_index, idf, tf)
 
 
-#info = [Tweet, Username, Date, Hashtags, Likes, Retweets, Url, tweet_id]
 def search_index(search_query, index, idf, tf, id_index):
     documents = []
     results = search_tf_idf(search_query, index, idf, tf, id_index)
@@ -69,10 +68,7 @@ def search_index(search_query, index, idf, tf, id_index):
 class SearchEngine:
     """educational search engine"""
     start_time = time.time()
-    # Read index to go faster at runtime
-    # index, df, id_index, idf, tf = read_index()
-    # index, df, id_index, idf, tf = create_index() # Build the index from our database
-
+    
     def __init__(self, index, df, id_index, idf, tf):
         self.index = index
         self.df = df
@@ -91,5 +87,5 @@ class SearchEngine:
 
         if not results:
             return False
-            
+
         return results
