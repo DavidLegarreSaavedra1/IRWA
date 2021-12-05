@@ -239,6 +239,7 @@ def create_corpus():
         proc_tweets[int(tweet_id)] = process_tweet(tweet['full_text'])
 
     corpus = []
+    numDocuments = len(tweets)
     for i in range(numDocuments):
         tweet = tweets[str(i)]
         terms = process_tweet(tweet['full_text']) #get tweet text

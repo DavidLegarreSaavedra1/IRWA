@@ -26,7 +26,6 @@ def get_random_date_in(start, end):
         seconds=random.randint(0, int((end - start).total_seconds())), )
 
 
-# info = [Tweet, Username, Date, Hashtags, Likes, Retweets, Url, details]
 class Document:
     def __init__(self, id, title, tweet,
                  username, date, hashtags,

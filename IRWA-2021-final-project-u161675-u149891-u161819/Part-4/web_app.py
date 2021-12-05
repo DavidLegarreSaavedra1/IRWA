@@ -39,7 +39,7 @@ def doc_details():
 
     print("click in id={} - fact_clicks len: {}".format(clicked_doc_id, len(analytics_data.fact_clicks)))
 
-    return render_template('doc_details.html')
+    return render_template('doc_details.html', tweet=corpus[clicked_doc_id])
 
 
 @app.route('/stats', methods=['GET'])
