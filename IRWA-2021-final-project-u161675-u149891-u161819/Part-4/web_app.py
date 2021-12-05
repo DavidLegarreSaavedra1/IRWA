@@ -1,9 +1,10 @@
 import nltk
-from datetime import date
+from datetime import datetime
 
 from flask import Flask, render_template
 from flask import request
 from flask import session
+from numpy import datetime_data
 
 from app.analytics.analytics_data import AnalyticsData, Click, Agent_data
 from app.core import utils
@@ -91,15 +92,20 @@ def stats():
         for query in analytics_data.fact_doc_queries[doc.id]:
             doc.queries.append(query.text)
         doc.queries = [q for q in doc.queries if q]
+        doc.queries = set(doc.queries)
 
     # Agent data
     agent_data = Agent_data(request)
+
+    # Time
+    now = datetime.now()
+    time = now.strftime(" %H:%M:%S %d-%m-%Y")
 
     return render_template('dashboard.html',
                            clicks_data=docs, num_clicks=num_clicks,
                            num_sessions=num_sessions, queries=queries,
                            queries_len=queries_len, top10_clicked_docs=top_10_docs,
-                           agent=agent_data, date=date.today())
+                           agent=agent_data, date=time)
 
 
 @app.route('/sentiment')

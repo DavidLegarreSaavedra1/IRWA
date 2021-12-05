@@ -18,7 +18,7 @@
     <div><a href="#" onclick="history.go(-1)">Go back</a></div>
     <div><a href="#" onclick="history.go(-2)">Go back to results</a></div>
     <div><a href="#" onclick="history.go(-3)">Make another query</a></div>
-    <hr> Session information:
+    <hr> Session information at ({{ date }} ):
     <div class="Agent">
         <ul>
             <li>Platform: {{ agent.platform }}</li>
@@ -27,37 +27,39 @@
         </ul>
     </div>
     <hr> Stats this session:
-    <hr>
-    <div class="Clicks">
-        Number of documents clicked this session: {{ num_clicks }}
-    </div>
-    <hr>
-    <div class="queries">
-        <div class="avg_q_len">
-            Average query length this session: {{ queries_len}}
+    <div class="Stats">
+        <hr>
+        <div class="Clicks">
+            Number of documents clicked this session: {{ num_clicks }}
         </div>
-        <br>
+        <hr>
         <div class="queries">
-            Queries so far:
+            <div class="avg_q_len">
+                Average query length this session: {{ queries_len}}
+            </div>
+            <br>
             <div class="queries">
-                <ol>
-                    {% for query in queries %}
-                    <li>{{ query.text }}</li>
-                    {% endfor %}
-                </ol>
+                Queries so far:
+                <div class="queries">
+                    <ol>
+                        {% for query in queries %}
+                        <li>{{ query.text }}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
             </div>
         </div>
-    </div>
-    <hr>
-    <div class="Documents">
-        <div class="Top clicked docs">
-            Top 10 clicked docs this session:
-            <div class="top">
-                <ol>
-                    {% for doc in top10_clicked_docs %}
-                    <li><a href="{{ doc.details }}">{{ doc.tweet }} queries:{{ doc.queries }}</a></li>
-                    {% endfor %}
-                </ol>
+        <hr>
+        <div class="Documents">
+            <div class="Top clicked docs">
+                Top 10 clicked docs this session:
+                <div class="top">
+                    <ol>
+                        {% for doc in top10_clicked_docs %}
+                        <li><a href="{{ doc.details }}">{{ doc.tweet }} queries:{{ doc.queries }}</a></li>
+                        {% endfor %}
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
