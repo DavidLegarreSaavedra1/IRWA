@@ -99,7 +99,7 @@ def stats():
                            clicks_data=docs, num_clicks=num_clicks,
                            num_sessions=num_sessions, queries=queries,
                            queries_len=queries_len, top10_clicked_docs=top_10_docs,
-                           agent=agent_data)
+                           agent=agent_data, date=date.today())
 
 
 @app.route('/sentiment')
