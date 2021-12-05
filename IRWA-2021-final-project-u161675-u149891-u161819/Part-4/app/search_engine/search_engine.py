@@ -34,7 +34,7 @@ def search_index(search_query, index, idf, tf, id_index):
     results = search_tf_idf(search_query, index, idf, tf, id_index)
     for tweet_info in results:
         title = f"{tweet_info[0][:25]}...\n"
-        #tweet_details = "doc_details?id={}&param1=1&param2=2".format()
+        tweet_details = "doc_details?id={}&param1=1&param2=2".format(tweet_info[7])
         new_doc = DocumentInfo(title,
                                tweet_info[0],
                                tweet_info[1],
@@ -43,7 +43,7 @@ def search_index(search_query, index, idf, tf, id_index):
                                tweet_info[4],
                                tweet_info[5],
                                tweet_info[6],
-                               tweet_info[7])
+                               tweet_details)
         documents.append(new_doc)
     return documents
 

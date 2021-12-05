@@ -7,7 +7,7 @@
     {% for item in results_list %}
         <div class="pb-3">
             <div class="doc-title">
-                Tweet: <a href="{{ item.details }}">{{ item.title}}</a>
+                Tweet (click for tweet details): <a href="{{ item.details }}">{{ item.title}}</a>
             </div>
 
             <div class="tweet">
@@ -21,13 +21,10 @@
             <div class="url">
                 <cite> <a href="{{ item.url }}">{{ item.url }}</a></cite>
             </div>
-
-            <!--
-            <div class="cited">
-                <cite> <a href="{{ item.url }}">{{ item.url }}</a></cite>
-            </div>
-            -->
             
+            <div class="doc-desc">
+                likes:{{ item.likes }} — retweets:{{ item.retweets }}
+            </div>
             <div class="doc-desc">
                 likes:{{ item.likes }} — retweets:{{ item.retweets }}
             </div>

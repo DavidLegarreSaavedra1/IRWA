@@ -2,7 +2,7 @@ import datetime
 from random import random
 
 from faker import Faker
-
+from app.search_engine.algorithms import create_corpus
 fake = Faker()
 
 
@@ -26,14 +26,21 @@ def get_random_date_in(start, end):
         seconds=random.randint(0, int((end - start).total_seconds())), )
 
 
+# info = [Tweet, Username, Date, Hashtags, Likes, Retweets, Url, details]
 class Document:
-    def __init__(self, id, title, description, doc_date, email, ip):
+    def __init__(self, id, title, tweet,
+                 username, date, hashtags,
+                 likes, retweets, url):
+
         self.id = id
         self.title = title
-        self.description = description
-        self.doc_date = doc_date
-        self.email = email
-        self.ip = ip
+        self.tweet = tweet
+        self.username = username
+        self.date = date
+        self.hashtags = hashtags
+        self.likes = likes
+        self.retweets = retweets
+        self.url = url
 
 
 def load_documents_corpus():
@@ -43,7 +50,22 @@ def load_documents_corpus():
     """
 
     ##### demo replace ith your code here #####
-    docs = []
-    for i in range(200):
-        docs.append(Document(fake.uuid4(), fake.text(), fake.text(), fake.date_this_year(), fake.email(), fake.ipv4()))
+    # docs = []
+    # for i in range(200):
+    #     docs.append(Document(fake.uuid4(), fake.text(), fake.text(), fake.date_this_year(), fake.email(), fake.ipv4()))
+    tweets = create_corpus()
+    docs = {}
+    for tweet_info in tweets:
+        title = f"{tweet_info[0][:25]}...\n"
+        tweet_id = tweet_info[7]
+        new_doc = Document(tweet_id,
+                           title,
+                           tweet_info[0],
+                           tweet_info[1],
+                           tweet_info[2],
+                           tweet_info[3],
+                           tweet_info[4],
+                           tweet_info[5],
+                           tweet_info[6])
+        docs[tweet_id] = new_doc
     return docs
